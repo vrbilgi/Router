@@ -34,6 +34,8 @@ def serverpart(sock, addr):
         try:
             sock.sendall(data)  # this is a blocking call
             print('Data sent', data)
+            import time
+            time.sleep(100)  #This is done to simulate the multiple clinet connection to one server
         except socket.error:
             sock.close()
             return
@@ -57,8 +59,15 @@ def server_start(ip, port):
     TODO: What is listen
     socket.AF_INET
     socket.SOCK_STREAM
+    TCP almost always uses SOCK_STREAM and UDP uses SOCK_DGRAM.
+    TCP (SOCK_STREAM) is a connection-based protocol. The connection is established and the two parties have a conversation until the connection is terminated by one of the parties or by a network error.
+    UDP (SOCK_DGRAM) is a datagram-based protocol. You send one datagram and get one reply and then the connection terminates.
     socket.SOL_SOCKET
+
     socket.SO_REUSEADDR
+    SO_REUSEADDR allows your server to bind to an address which is in a
+    TIME_WAIT state.
+    This socket option tells the kernel that even if this port is busy (in the TIME_WAIT state), go ahead and reuse it anyway. If it is busy, but with another state, you will still get an address already in use error. It is useful if your server has been shut down, and then restarted right away while sockets are still active on its port.
     """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
