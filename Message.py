@@ -4,6 +4,10 @@ import json
 
 
 class Message:
+    """
+    Message = Fixed_len_header_2byte + varible_len_json_header + \
+              variable_len_content
+    """
     def __init__(self):
         self.message_hdr = None
         self.content_bytes = None
